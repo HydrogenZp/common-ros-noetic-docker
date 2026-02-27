@@ -1,0 +1,21 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  ros1:
+    build: .
+    container_name: ros1_noetic_dev
+    network_mode: "host"
+    privileged: true
+    command: tail -f /dev/null
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XCURSOR_THEME=Adwaita
+      - XCURSOR_SIZE=24
+    volumes:
+      # 映射 XWayland 图形套接字
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /home/hyd:/home/hyd:rw
