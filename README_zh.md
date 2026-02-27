@@ -40,6 +40,8 @@ docker-compose up -d
 docker exec -it ros1_noetic_dev bash
 ```
 
+> **注意**: 使用前请在 `docker-compose.yml` 中将卷映射路径从 `/home/hyd` 修改为你自己的用户主目录路径。
+
 ## 配置说明
 
 ### 环境变量

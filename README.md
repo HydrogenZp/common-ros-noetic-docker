@@ -40,6 +40,8 @@ docker-compose up -d
 docker exec -it ros1_noetic_dev bash
 ```
 
+> **Note**: Before using, update the username in `docker-compose.yml` from `/home/hyd` to your own home directory path.
+
 ## Configuration
 
 ### Environment Variables
