@@ -65,9 +65,14 @@ RUN apt-get update && \
         cmake \
         git \
         vim \
-        clangd \
-	jq \
+        jq \
         libserial-dev && \
+    # 安装新版 cmake 和 clangd-21 (从 LLVM 源)
+    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
+    apt-add-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main' && \
+    apt-get update && \
+    apt-get install -y cmake clangd-21 && \
+    ln -s /usr/bin/clangd-21 /usr/local/bin/clangd && \
     # 初始化 rosdep (如果已存在则先删除)
     rm -f /etc/ros/rosdep/sources.list.d/20-default.list && \
     rosdep init && \
