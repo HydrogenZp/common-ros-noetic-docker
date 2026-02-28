@@ -42,6 +42,10 @@ HOST_HOME_DIR=/home/你的用户名
 docker-compose up -d
 ```
 
+> Dev Container 启动加速提示：
+> 本项目通过 Docker 命名卷持久化 `/root/.vscode-server`，因此 VS Code Server 和远程扩展数据会在重建容器后复用。
+> 首次连接可能仍较慢（下载 + 解压），后续连接会明显更快。
+
 ### 进入容器
 
 ```bash
@@ -63,6 +67,16 @@ docker exec -it ros1_noetic_dev bash
 
 - `/tmp/.X11-unix`: X11 套接字，支持图形界面应用
 - `${HOST_HOME_DIR}:${HOST_HOME_DIR}`: 用户主目录映射
+- `vscode-server-data:/root/.vscode-server`: 持久化 VS Code Server 二进制与远程用户数据
+- `vscode-extensions:/root/.vscode/extensions`: 持久化附加扩展缓存
+
+### Dev Container 二次连接加速建议（推荐）
+
+1. 保持相同的 Compose 项目名（默认就是目录名），确保命名卷可复用。
+2. 非必要不要执行 `down -v`，否则会清空缓存卷。
+3. 需要重建镜像时，优先只重建镜像，不删除卷。
+
+如果首次连接仍慢，通常是 VS Code Server 首次下载阶段受网络带宽影响。
 
 ## 可用工具
 

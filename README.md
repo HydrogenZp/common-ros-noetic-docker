@@ -42,6 +42,10 @@ HOST_HOME_DIR=/home/your-username
 docker-compose up -d
 ```
 
+> Dev Container startup speed tip:
+> this project persists `/root/.vscode-server` via Docker named volumes, so VS Code Server and remote extension data are reused across container recreations.
+> First attach may still be slow (download + extract), while subsequent attaches are much faster.
+
 ### Access the Container
 
 ```bash
@@ -63,6 +67,16 @@ docker exec -it ros1_noetic_dev bash
 
 - `/tmp/.X11-unix`: X11 socket for GUI support
 - `${HOST_HOME_DIR}:${HOST_HOME_DIR}`: User home directory mapping
+- `vscode-server-data:/root/.vscode-server`: persist VS Code Server binaries and remote user data
+- `vscode-extensions:/root/.vscode/extensions`: persist additional extension cache
+
+### Faster Dev Container Reopen (recommended)
+
+1. Keep using the same Docker Compose project name (default is folder name), so named volumes are reused.
+2. Avoid `down -v` unless you intentionally want to clear caches.
+3. If you need to rebuild image, prefer rebuild without deleting volumes.
+
+If startup is still slow on first run, it's usually network-bound while downloading VS Code Server.
 
 ## Available Tools
 

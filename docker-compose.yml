@@ -22,3 +22,10 @@ services:
       # 映射 XWayland 图形套接字
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${HOST_HOME_DIR:-/home/hyd}:${HOST_HOME_DIR:-/home/hyd}:rw
+      # 持久化 VS Code Server，避免每次重建容器重复下载安装
+      - vscode-server-data:/root/.vscode-server
+      - vscode-extensions:/root/.vscode/extensions
+
+volumes:
+  vscode-server-data:
+  vscode-extensions:
