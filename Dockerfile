@@ -75,6 +75,7 @@ RUN apt-get update && \
     apt-add-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main' && \
     apt-get update && \
     apt-get install -y cmake clangd-21 && \
+    apt-get install -y clang-format && \
     ln -s /usr/bin/clangd-21 /usr/local/bin/clangd && \
     # 初始化 rosdep (如果已存在则先删除)
     rm -f /etc/ros/rosdep/sources.list.d/20-default.list && \
