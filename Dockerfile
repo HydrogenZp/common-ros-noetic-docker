@@ -95,3 +95,6 @@ RUN echo '# 颜色化 bash' >> /root/.bashrc && \
     echo 'export ROS_MASTER_URI=http://localhost:11311' >> /root/.bashrc && \
     echo 'source /opt/ros/noetic/setup.bash' >> /root/.bashrc
 WORKDIR /home/hyd/
+LABEL org.opencontainers.image.source=https://github.com/HydrogenZp/common-ros-noetic-docker
+LABEL org.opencontainers.image.description="Common ROS Noetic Docker Image with pre-configured tools"
+LABEL org.opencontainers.image.licenses=MIT
