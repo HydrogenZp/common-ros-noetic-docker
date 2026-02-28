@@ -3,7 +3,10 @@ version: '3.8'
 
 services:
   ros1:
-    build: .
+    build:
+      context: .
+      args:
+        HOST_HOME_DIR: ${HOST_HOME_DIR:-/home/hyd}
     container_name: ros1_noetic_dev
     network_mode: "host"
     privileged: true
@@ -18,4 +21,4 @@ services:
     volumes:
       # 映射 XWayland 图形套接字
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /home/hyd:/home/hyd:rw
+      - ${HOST_HOME_DIR:-/home/hyd}:${HOST_HOME_DIR:-/home/hyd}:rw

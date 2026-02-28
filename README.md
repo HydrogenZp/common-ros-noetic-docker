@@ -8,6 +8,8 @@ This project provides a containerized ROS Noetic development environment with co
 
 > **Other Languages**: [简体中文](README_zh.md)
 
+> By default, this project uses `HOST_HOME_DIR` from `.env` for both container working directory and home volume mapping, so usernames are not hardcoded.
+
 ## Features
 
 - **Base Image**: OSRF ROS Noetic desktop full
@@ -28,6 +30,12 @@ This project provides a containerized ROS Noetic development environment with co
 docker-compose build
 ```
 
+Before first use, set this in `.env` at the project root:
+
+```bash
+HOST_HOME_DIR=/home/your-username
+```
+
 ### Run the Container
 
 ```bash
@@ -40,8 +48,6 @@ docker-compose up -d
 docker exec -it ros1_noetic_dev bash
 ```
 
-> **Note**: Before using, update the username in `docker-compose.yml` from `/home/hyd` to your own home directory path.
-
 ## Configuration
 
 ### Environment Variables
@@ -51,11 +57,12 @@ docker exec -it ros1_noetic_dev bash
 | `ROS_IP` | `127.0.0.1` | ROS network interface |
 | `ROS_MASTER_URI` | `http://localhost:11311` | ROS master URI |
 | `DISPLAY` | - | X11 display for GUI applications |
+| `HOST_HOME_DIR` | `/home/hyd` | Host user directory (used for build arg, container workdir, and volume mapping) |
 
 ### Volumes
 
 - `/tmp/.X11-unix`: X11 socket for GUI support
-- `/home/hyd`: User home directory mapping
+- `${HOST_HOME_DIR}:${HOST_HOME_DIR}`: User home directory mapping
 
 ## Available Tools
 

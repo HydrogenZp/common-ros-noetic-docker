@@ -8,6 +8,8 @@
 
 > **其他语言**: [English](README.md)
 
+> 默认使用 `.env` 中的 `HOST_HOME_DIR` 作为容器工作目录和主目录挂载路径，避免硬编码用户名。
+
 ## 主要特性
 
 - **基础镜像**: OSRF ROS Noetic desktop full
@@ -28,6 +30,12 @@
 docker-compose build
 ```
 
+首次使用请先在项目根目录 `.env` 中设置：
+
+```bash
+HOST_HOME_DIR=/home/你的用户名
+```
+
 ### 启动容器
 
 ```bash
@@ -40,8 +48,6 @@ docker-compose up -d
 docker exec -it ros1_noetic_dev bash
 ```
 
-> **注意**: 使用前请在 `docker-compose.yml` 中将卷映射路径从 `/home/hyd` 修改为你自己的用户主目录路径。
-
 ## 配置说明
 
 ### 环境变量
@@ -51,11 +57,12 @@ docker exec -it ros1_noetic_dev bash
 | `ROS_IP` | `127.0.0.1` | ROS 网络接口地址 |
 | `ROS_MASTER_URI` | `http://localhost:11311` | ROS 主节点 URI |
 | `DISPLAY` | - | X11 显示，用于 GUI 应用 |
+| `HOST_HOME_DIR` | `/home/hyd` | 宿主用户目录（同时用于构建参数、容器工作目录和卷映射） |
 
 ### 卷映射
 
 - `/tmp/.X11-unix`: X11 套接字，支持图形界面应用
-- `/home/hyd`: 用户主目录映射
+- `${HOST_HOME_DIR}:${HOST_HOME_DIR}`: 用户主目录映射
 
 ## 可用工具
 

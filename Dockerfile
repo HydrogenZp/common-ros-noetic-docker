@@ -11,6 +11,9 @@ ENV ROBOT_TYPE=standard6
 ENV ROS_IP=127.0.0.1
 ENV ROS_MASTER_URI=http://localhost:11311
 
+ARG HOST_HOME_DIR=/home/hyd
+ENV HOST_HOME_DIR=${HOST_HOME_DIR}
+
 RUN apt-get update && \
     apt-get install -y sudo software-properties-common wget gnupg curl && \
     # 安装 ROS Noetic 额外常用包
@@ -94,7 +97,7 @@ RUN echo '# 颜色化 bash' >> /root/.bashrc && \
     echo 'export ROS_IP=127.0.0.1' >> /root/.bashrc && \
     echo 'export ROS_MASTER_URI=http://localhost:11311' >> /root/.bashrc && \
     echo 'source /opt/ros/noetic/setup.bash' >> /root/.bashrc
-WORKDIR /home/hyd/
+WORKDIR ${HOST_HOME_DIR}
 LABEL org.opencontainers.image.source=https://github.com/HydrogenZp/common-ros-noetic-docker
 LABEL org.opencontainers.image.description="Common ROS Noetic Docker Image with pre-configured tools"
 LABEL org.opencontainers.image.licenses=MIT
