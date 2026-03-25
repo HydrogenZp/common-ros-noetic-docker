@@ -42,6 +42,8 @@ HOST_HOME_DIR=/home/your-username
 docker-compose up -d
 ```
 
+If the host already has NVIDIA Container Toolkit installed, the Compose config will expose available GPUs to the container automatically.
+
 > Dev Container startup speed tip:
 > this project persists `/root/.vscode-server` via Docker named volumes, so VS Code Server and remote extension data are reused across container recreations.
 > First attach may still be slow (download + extract), while subsequent attaches are much faster.
@@ -62,6 +64,8 @@ docker exec -it ros1_noetic_dev bash
 | `ROS_MASTER_URI` | `http://localhost:11311` | ROS master URI |
 | `DISPLAY` | - | X11 display for GUI applications |
 | `HOST_HOME_DIR` | `/home/hyd` | Host user directory (used for build arg, container workdir, and volume mapping) |
+| `NVIDIA_VISIBLE_DEVICES` | `all` | NVIDIA GPUs exposed to the container |
+| `NVIDIA_DRIVER_CAPABILITIES` | `all` | Enabled NVIDIA driver capability set |
 
 ### Volumes
 
@@ -100,7 +104,22 @@ If startup is still slow on first run, it's usually network-bound while download
 
 - Docker
 - Docker Compose
+- NVIDIA Container Toolkit (required on the host for NVIDIA GPU acceleration)
 - X11 server (for GUI applications)
+
+## NVIDIA GPU Support
+
+Once the host has NVIDIA drivers and NVIDIA Container Toolkit installed, start the container normally:
+
+```bash
+docker-compose up -d
+```
+
+Then verify GPU passthrough inside the container with:
+
+```bash
+nvidia-smi
+```
 
 ## License
 

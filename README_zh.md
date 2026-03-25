@@ -42,6 +42,8 @@ HOST_HOME_DIR=/home/你的用户名
 docker-compose up -d
 ```
 
+如果宿主机已安装 NVIDIA Container Toolkit，上面的 Compose 配置会自动把可用 GPU 暴露给容器。
+
 > Dev Container 启动加速提示：
 > 本项目通过 Docker 命名卷持久化 `/root/.vscode-server`，因此 VS Code Server 和远程扩展数据会在重建容器后复用。
 > 首次连接可能仍较慢（下载 + 解压），后续连接会明显更快。
@@ -62,6 +64,8 @@ docker exec -it ros1_noetic_dev bash
 | `ROS_MASTER_URI` | `http://localhost:11311` | ROS 主节点 URI |
 | `DISPLAY` | - | X11 显示，用于 GUI 应用 |
 | `HOST_HOME_DIR` | `/home/hyd` | 宿主用户目录（同时用于构建参数、容器工作目录和卷映射） |
+| `NVIDIA_VISIBLE_DEVICES` | `all` | 暴露给容器的 NVIDIA GPU |
+| `NVIDIA_DRIVER_CAPABILITIES` | `all` | NVIDIA 驱动能力集合 |
 
 ### 卷映射
 
@@ -100,7 +104,22 @@ docker exec -it ros1_noetic_dev bash
 
 - Docker
 - Docker Compose
+- NVIDIA Container Toolkit（宿主机需要 NVIDIA GPU 加速时）
 - X11 服务器（用于图形界面应用）
+
+## NVIDIA GPU 使用说明
+
+宿主机安装好 NVIDIA 驱动和 NVIDIA Container Toolkit 后，直接启动即可：
+
+```bash
+docker-compose up -d
+```
+
+进入容器后可执行下面的命令验证 GPU 已透传：
+
+```bash
+nvidia-smi
+```
 
 ## 许可证
 

@@ -73,11 +73,13 @@ RUN apt-get update && \
         vim \
         jq \
         libserial-dev \
-	iproute2 && \
-
+        iproute2 && \
+    mkdir -p /etc/apt/keyrings /tmp/rosdep && \
+    chmod 755 /etc/apt/keyrings /tmp/rosdep && \
+    chown nobody:nogroup /tmp/rosdep && \
     # 安装新版 cmake 和 clangd-21 (从 LLVM 源)
-    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    apt-add-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main' && \
+    curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | gpg --dearmor -o /etc/apt/keyrings/llvm.gpg && \
+    echo 'deb [signed-by=/etc/apt/keyrings/llvm.gpg] http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main' > /etc/apt/sources.list.d/llvm.list && \
     apt-get update && \
     apt-get install -y cmake clangd-21 && \
     apt-get install -y clang-format && \
@@ -85,7 +87,8 @@ RUN apt-get update && \
     # 初始化 rosdep (如果已存在则先删除)
     rm -f /etc/ros/rosdep/sources.list.d/20-default.list && \
     rosdep init && \
-    rosdep update && \
+    rosdep fix-permissions && \
+    sudo -u nobody env HOME=/tmp/rosdep rosdep update && \
     # 清理
     apt-get clean && rm -rf /var/lib/apt/lists/*
 

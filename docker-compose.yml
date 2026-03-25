@@ -1,6 +1,3 @@
-# docker-compose.yml
-version: '3.8'
-
 services:
   ros1:
     build:
@@ -10,6 +7,7 @@ services:
     container_name: ros1_noetic_dev
     network_mode: "host"
     privileged: true
+    gpus: all
     command: tail -f /dev/null
     devices:
       - /dev/dri:/dev/dri
@@ -18,6 +16,8 @@ services:
       - QT_X11_NO_MITSHM=1
       - XCURSOR_THEME=Adwaita
       - XCURSOR_SIZE=24
+      - NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}
+      - NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:-all}
     volumes:
       # 映射 XWayland 图形套接字
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
